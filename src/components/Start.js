@@ -1,8 +1,19 @@
-//AKA Screen1
 import React, { Component } from "react";
-import { ImageBackground, StyleSheet, Text, View, Button } from "react-native";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Image,
+  Pressable,
+} from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+
+//importing images
 import bgImage from "../assets/images/bkg-img.png";
+import logo from "../assets/images/texter-logo.png";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 class Start extends Component {
   state = {
@@ -13,10 +24,10 @@ class Start extends Component {
   changeBgColor = (newColor) => {
     this.setState({ bgColor: newColor });
   };
-
+//background color choices
   colors = {
     beige: "#f5f5dc",
-    gray: "#474056",
+    grey: "#474056",
     lightBlue: "#8A95A5",
     lightGreen: "#B9C6AE",
   };
@@ -29,51 +40,88 @@ class Start extends Component {
           resizeMode="cover"
           style={styles.bgImage}
         >
-          <Text style={styles.h1}>CHATTY</Text>
+          <Image
+            accessible={true}
+            accessibilityLabel="Texter logo"
+            accessibilityHint="The logo is a smily face and under it there is the app title 'Texter'"
+            accessibilityRole="image"
+            style={styles.logo}
+            source={logo}
+          />
           <View style={styles.box}>
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => this.setState({ name: text })}
-              value={this.state.name}
-              placeholder="Your Name"
-            />
+            <View style={styles.inputField}>
+              <Icon
+                style={styles.iconStyle}
+                name="user"
+                size={30}
+                color="#888"
+              />
+              <TextInput
+                accessible={true}
+                accessibilityLabel="Your Name"
+                accessibilityHint="Type the name you want to use in the chat session"
+                style={styles.input}
+                onChangeText={(text) => this.setState({ name: text })}
+                value={this.state.name}
+                placeholder="Your Name"
+              />
+            </View>
             <View style={styles.colorSwatch}>
               <Text style={styles.subtitle}>Choose Background Color</Text>
               <View style={styles.swatches}>
                 <TouchableOpacity
-                  onPress={() => this.changeBgColor(this.colors.black)}
+                  accessible={true}
+                  accessibilityLabel="Select beige background"
+                  accessibilityHint="Lets you choose an beige background for the chat screen"
+                  accessibilityRole="button"
+                  onPress={() => this.changeBgColor(this.colors.beige)}
                 >
                   <View style={styles.swatch1}></View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => this.changeBgColor(this.colors.gray)}
+                  accessible={true}
+                  accessibilityLabel="Select grey background"
+                  accessibilityHint="Lets you choose a grey background for the chat screen"
+                  accessibilityRole="button"
+                  onPress={() => this.changeBgColor(this.colors.grey)}
                 >
                   <View style={styles.swatch2}></View>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  accessible={true}
+                  accessibilityLabel="Select light blue background"
+                  accessibilityHint="Lets you choose a light blue background for the chat screen"
+                  accessibilityRole="button"
                   onPress={() => this.changeBgColor(this.colors.lightBlue)}
                 >
                   <View style={styles.swatch3}></View>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  accessible={true}
+                  accessibilityLabel="Select light green background"
+                  accessibilityHint="Lets you choose a light green background for the chat screen"
+                  accessibilityRole="button"
                   onPress={() => this.changeBgColor(this.colors.lightGreen)}
                 >
                   <View style={styles.swatch4}></View>
                 </TouchableOpacity>
               </View>
             </View>
-            <Button
+            <Pressable
               style={styles.btn}
-              title="Start Chatting"
-              color={"#757083"}
-              containerViewStyle={{ width: "100%", marginLeft: 0 }}
+              accessible={true}
+              accessibilityLabel="Start texting"
+              accessibilityHint="Lets you start a new chat session"
+              accessibilityRole="button"
               onPress={() =>
                 this.props.navigation.navigate("Chat", {
                   name: this.state.name,
                   bgColor: this.state.bgColor,
                 })
               }
-            />
+            >
+              <Text style={styles.btnText}>Start Texting</Text>
+            </Pressable>
           </View>
         </ImageBackground>
       </View>
@@ -96,16 +144,21 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
   },
+  logo: {
+    width: "70%",
+    height: "auto",
+    resizeMode: "contain",
+    flex: 1,
+  },
   h1: {
-    flexGrow: 15,
-    flexShrink: 10,
-    fontSize: 45,
+    flexGrow: 1,
+    flexShrink: 1,
     fontWeight: "800",
-    color: "#fff",
+    color: "transparent",
     paddingTop: 60,
   },
   box: {
-    backgroundColor: "white",
+    backgroundColor: "#ffffff",
     flexGrow: 1,
     flexShrink: 0,
     width: "88%",
@@ -116,23 +169,54 @@ const styles = StyleSheet.create({
     padding: 30,
     height: 260,
     minHeight: 260,
+    maxHeight: 290,
+    borderRadius: 20,
+  },
+  inputField: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderWidth: 0.5,
+    borderColor: "#000",
+    height: 50,
+    borderRadius: 5,
+    marginHorizontal: 10,
+    marginVertical: 0,
+  },
+  iconStyle: {
+    //padding: 10,
+    marginLeft: 15,
+    marginRight: 15,
+    height: 25,
+    width: 25,
+    alignItems: "center",
   },
   input: {
     flex: 1,
-    height: 50,
-    maxHeight: 50,
-    borderColor: "gray",
-    borderWidth: 1,
-    width: "88%",
-    padding: 5,
-    paddingLeft: 10,
-    fontSize: 16,
-    fontWeight: "300",
-    color: "#757083",
-    opacity: 0.5,
+    fontSize: 18,
+    color: "#888",
   },
   btn: {
     flex: 1,
+    backgroundColor: "#6705e9",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    paddingVertical: 0,
+    paddingHorizontal: 32,
+    marginTop: 10,
+    width: "90%",
+    borderRadius: 5,
+  },
+  btnText: {
+    fontSize: 16,
+    marginTop: 0,
+    marginBottom: 0,
+    textAlign: "center",
+    color: "#fff",
+    textTransform: "uppercase",
+    fontWeight: "bold",
   },
   subtitle: {
     fontSize: 16,
