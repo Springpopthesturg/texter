@@ -7,7 +7,9 @@ import "react-native-gesture-handler";
 //importing react Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
+//
+const firebase = require('firebase');
+require('firebase/firestore');
 /**
  * Main component that holds the navigation container to
  * switch from one screen to the other

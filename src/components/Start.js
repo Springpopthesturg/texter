@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
+  LogBox,
   Image,
   Pressable,
 } from "react-native";
@@ -24,13 +24,17 @@ class Start extends Component {
   changeBgColor = (newColor) => {
     this.setState({ bgColor: newColor });
   };
-//background color choices
+  //background color choices
   colors = {
     beige: "#f5f5dc",
     grey: "#474056",
     lightBlue: "#8A95A5",
     lightGreen: "#B9C6AE",
   };
+
+  componentDidMount() {
+    LogBox.ignoreAllLogs();
+  }
 
   render() {
     return (
