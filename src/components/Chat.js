@@ -6,7 +6,7 @@ import {
   View,
   Platform,
   KeyboardAvoidingView,
-  
+
 } from "react-native";
 import {
   Bubble,
@@ -15,6 +15,9 @@ import {
   Day,
   InputToolbar,
 } from "react-native-gifted-chat";
+
+import MapView from "react-native-maps";
+import CustomActions from "./CustomActions";
 
 import firebase from "firebase";
 import "firebase/firestore";
@@ -62,7 +65,7 @@ class Chat extends Component {
    * Lifecycle method to make sure that the component mounted
    * before the options of the current screen are set
    */
-   componentDidMount() {
+  componentDidMount() {
     //get user name from start screen
     const { name } = this.props.route.params;
     //setting up the screen title
@@ -275,6 +278,27 @@ class Chat extends Component {
     }
   }
 
+  renderCustomActions(props) {
+    return <CustomActions {...props} />;
+  }
+
+  renderCustomView(props) {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+  }
+
   render() {
     const { bgColor, bgImage } = this.props.route.params;
 
@@ -296,6 +320,8 @@ class Chat extends Component {
             renderUsernameOnMessage={true}
             renderDay={this.renderDay}
             renderInputToolbar={this.renderInputToolbar.bind(this)}
+            renderActions={this.renderCustomActions}
+             renderCustomView={this.renderCustomView}
             messages={this.state.messages}
             onSend={(messages) => this.onSend(messages)}
             user={{
